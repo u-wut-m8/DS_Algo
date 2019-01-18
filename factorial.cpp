@@ -24,13 +24,13 @@ void factorial(int num){
     int res_size = 1;
     for(int i=2; i<=num; i++)
         res_size = multiply(i, res, res_size);
-    for(int i=res_size;i>=0;i--)
+    for(int i=res_size-1;i>=0;i--)
         std::cout<<*(res + i);
     std::cout<<std::endl;
 }
 
 int main(int argc, char const *argv[])
 {
-    factorial(5000);
+    factorial(3);
     return 0;
 }
