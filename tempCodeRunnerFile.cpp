@@ -1,4 +1,1 @@
-
-                    *(arr+j) = 0;
-                else
-                    *(arr+j) = 1;
+year/4 - year/100 + year/400
