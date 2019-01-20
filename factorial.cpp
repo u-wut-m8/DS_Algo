@@ -1,7 +1,7 @@
 #include <iostream>
 // #include <climits>
 
-#define MAX 50000
+#define MAX 500000
 
 int multiply(int n, int *arr, int res_size){
     int carry = 0;
@@ -31,6 +31,6 @@ void factorial(int num){
 
 int main(int argc, char const *argv[])
 {
-    factorial(3);
+    factorial(9999);
     return 0;
 }

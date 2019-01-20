@@ -41,7 +41,7 @@ int calculateNoOfFactors(int num) {
 int main(int argc, char const *argv[])
 {
     findSPF();
-    int arr[] = {10, 30, 100, 450, 987};
+    int arr[] = {10, 25, 100, 450, 987};
     for(int i=0;i<5;i++)
         std::cout<<calculateNoOfFactors(*(arr+i))<<std::endl;
     return 0;

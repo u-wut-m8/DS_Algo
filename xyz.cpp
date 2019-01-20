@@ -1,31 +1,16 @@
 #include <iostream>
-#include <cmath>
+#include <vector>
 
 int main(int argc, char const *argv[])
 {
-    int T, *arr;
-    long long N, count;
+    std::vector<int> fib = {0, 1};
+    for(int i=2;i<300;i++)
+        fib.push_back((fib[i-1] + fib[i-2])%100);
+    int T, N;
     std::cin>>T;
     while(T--) {
         std::cin>>N;
-        // arr = new int[N];
-        // for(long long i=0;i<N;i++)
-        //     *(arr+i) = 1;
-        // count = 2;
-        // for(long long i=2;i<=N;i++){
-        //     for(long long j=i-1;j<N;j+=i)
-        //         if(arr[j-1])
-        //             arr[j-1] = 0;
-        //         else
-        //             arr[j-1] = 1;
-        // }
-        // count = 0;
-        // for(long long i=0;i<N;i++)
-        //     if(arr[i])
-        //         count++;
-        // std::cout<<count<<std::endl;
-        // delete[] arr;
-        std::cout<<std::floor(std::sqrt(N))<<std::endl;
+        std::cout<<fib[N%300]<<std::endl;
     }
     return 0;
 }
