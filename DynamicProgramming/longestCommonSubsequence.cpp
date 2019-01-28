@@ -14,7 +14,7 @@ int lcs(const std::string& s1, const std::string& s2) {
             if(s1[i-1] == s2[j-1])
                 C[i][j] = C[i-1][j-1] + 1;
             else
-                C[i][j] = C[i-1][j], C[i][j-1];
+                C[i][j] = max(C[i-1][j], C[i][j-1]);
     return C[m][n];
 }
 

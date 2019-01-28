@@ -22,10 +22,8 @@ int main() {
 	            i++;
 	        else
 	            j--;
-		for(int i=0;i<v.size();i++)
-			std::cout<<v[i].first<<" "<<v[i].second<<" "<<K<<std::endl;
-		if(v.size() == 0)
-			std::cout<<"-1"<<std::endl;
+	    for(int i=0;i<v.size();i++)
+	        std::cout<<v[i].first<<" "<<v[i].second<<" "<<K<<std::endl;
 		v.clear();
 	}
 	return 0;
