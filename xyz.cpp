@@ -1,32 +1,23 @@
 #include <iostream>
-#include <vector>
-#include <utility>
+#include <map>
 
 int main() {
-	//code
-	int *arr, T, N, K;
-	std::vector<std::pair<int, int>> v;
+	std::string s;
+	int T, e, o;
+	std::map<char, int> mp;
 	std::cin>>T;
 	while(T--) {
-	    std::cin>>N;
-	    arr = new int[N];
-	    for(int i=0;i<N;i++)
-	        std::cin>>*(arr+i);
-	    std::cin>>K;
-	    for(int i=0, j=N-1;i<j;)
-	        if(arr[i]+arr[j] == K){
-				v.push_back(std::make_pair(arr[i], arr[j]));
-	            i++;
-	            j--;
-	        }else if(arr[i]+arr[j]<K)
-	            i++;
-	        else
-	            j--;
-		for(int i=0;i<v.size();i++)
-			std::cout<<v[i].first<<" "<<v[i].second<<" "<<K<<std::endl;
-		if(v.size() == 0)
-			std::cout<<"-1"<<std::endl;
-		v.clear();
+		std::cin>>s;
+		for(std::string::iterator it=s.begin();it!=s.end();++it)
+			mp[*it]++;
+		e = o = 0;
+		for(std::map<char, int>::iterator it=mp.begin();it!=mp.end();++it)
+			(*it).second&1 ? o++ : e++;
+		if((s.size()&1 && o == 1) || (!(s.size()&1) && o == 0))
+			std::cout<<"Yes"<<std::endl;
+		else
+			std::cout<<"No"<<std::endl;
+		mp.clear();
 	}
 	return 0;
 }

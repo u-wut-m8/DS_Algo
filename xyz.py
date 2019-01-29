@@ -1,11 +1,7 @@
-m, n  = [*map(int, input().split(" "))]
-arr1 = [[0]*m]*n
-for i in range(n):
-    for j in range(m):
-        arr1[i][j] = int(input())
+T = int(input())
 
-p, q  = [*map(int, input().split(" "))]
-arr2 = [[0]*p]*q
-for i in range(p):
-    for j in range(q):
-        arr2[i][j] = int(input())
+while T:
+    s1 = input()
+    s2 = input()
+    print(*sorted([*set(set(set(s1) - set(s2)) | set(set(s2) - set(s1)))]), sep="")
+    T -= 1
