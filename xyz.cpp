@@ -1,23 +1,26 @@
 #include <iostream>
-#include <map>
 
 int main() {
-	std::string s;
-	int T, e, o;
-	std::map<char, int> mp;
+	int T;
+	std::string s1, s2;
 	std::cin>>T;
 	while(T--) {
-		std::cin>>s;
-		for(std::string::iterator it=s.begin();it!=s.end();++it)
-			mp[*it]++;
-		e = o = 0;
-		for(std::map<char, int>::iterator it=mp.begin();it!=mp.end();++it)
-			(*it).second&1 ? o++ : e++;
-		if((s.size()&1 && o == 1) || (!(s.size()&1) && o == 0))
-			std::cout<<"Yes"<<std::endl;
-		else
-			std::cout<<"No"<<std::endl;
-		mp.clear();
+		std::cin>>s1>>s2;
+		int i = 0;
+		if(s1.size() > s2.size()){
+			for(i=0;i<s2.size();i++)
+				std::cout<<s1[i]<<s2[i];
+			for(int k=i;k<s1.size();k++)
+				std::cout<<s1[k];
+		}else if(s1.size() < s2.size()){
+			for(i=0;i<s1.size();i++)
+				std::cout<<s1[i]<<s2[i];
+			for(int k=i;k<s2.size();k++)
+				std::cout<<s2[k];
+		} else 
+			for(int i=0;i<s2.size();i++)
+				std::cout<<(s1+s2)[i]<<(s1+s2)[i+s2.size()];
+		std::cout<<std::endl;
 	}
 	return 0;
 }
