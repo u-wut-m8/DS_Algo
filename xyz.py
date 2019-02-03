@@ -1,14 +1,17 @@
+from collections import Counter
 T = int(input())
 while T:
-    s = input()
-    _ = 0
-    while _ < len(s):
-        if not s[_].isalpha():
-            s = s.replace(s[_], "")
-            continue
-        _ += 1
-    if (s.lower() == s[::-1].lower()) and len(s) > 2:
-        print("YES")
-    else:
-        print("NO")
+    N, K = map(int, input().split())
+    arr = [*map(int, input().split())]
+    d = dict(Counter(arr))
+    flag = False
+    for key, val in d.items():
+        if val == K:
+            print(key, end=" ")
+            flag = True
+    if flag == False:
+        print(-1, end=" ")
+    print()
+    d.clear()
+    arr.clear()
     T -= 1
