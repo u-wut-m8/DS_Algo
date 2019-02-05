@@ -1,28 +1,31 @@
 #include <iostream>
-#define MAX 1000001
-bool isPrime[MAX];
+#include <climits>
 
-void solve() {
-    for(int i=0;i<MAX;i++)
-        isPrime[i] = true;
-    isPrime[0] = false;
-    isPrime[1] = false;
-    for(int i=2;i*i<=MAX;i++)
-        if(isPrime[i])
-            for(int j=i*i;j<MAX;j+=i)
-                isPrime[j] = false;
-    for(int i=2;i<MAX;i++)
-        if(isPrime[i])
-            std::cout<<i<<" ";
-    std::cout<<std::endl;
-}
-
-int main() {
-    int T, N;
-    std::cin>>T;
-    while(T--) {
-        std::cin>>N;
-        solve();
-    }
+int main(int argc, char *argv[]){
+	int T, N, M, temp, one_count, zero_count, ind, min;
+	std::cin>>T;
+	while(T--){
+		std::cin>>N>>M;
+		ind = -1;
+		min = INT_MAX;
+		for(int i=0;i<N;i++){
+			zero_count = 0;
+			one_count = 0;
+			for(int j=0;j<M;j++){
+				std::cin>>temp;
+				if(temp&1)
+					zero_count++;
+				else
+					one_count++;
+			}
+			if(zero_count == M)
+				continue;
+			if(one_count < min){
+				min = one_count;
+				ind = i;
+			}
+		}
+		std::cout<<ind<<std::endl;
+	}
 	return 0;
 }
