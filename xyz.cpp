@@ -1,27 +1,22 @@
 #include <iostream>
 #include <climits>
 
-int main(int argc, char *argv[]){
-	int T, N, M, temp, one_count, zero_count, ind, min;
+int main(int argc, char *argv[]) {
+	int T, M, N, temp, count, prev, ind;
 	std::cin>>T;
-	while(T--){
+	while(T--) {
 		std::cin>>N>>M;
+		prev = INT_MIN;
 		ind = -1;
-		min = INT_MAX;
 		for(int i=0;i<N;i++){
-			zero_count = 0;
-			one_count = 0;
+			count = 0;
 			for(int j=0;j<M;j++){
 				std::cin>>temp;
-				if(temp&1)
-					zero_count++;
-				else
-					one_count++;
+				if(temp == 1)
+					count++;
 			}
-			if(zero_count == M)
-				continue;
-			if(one_count < min){
-				min = one_count;
+			if(count > prev){
+				prev = count;
 				ind = i;
 			}
 		}
