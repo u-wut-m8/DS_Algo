@@ -1,47 +1,37 @@
 #include <iostream>
-#include <climits>
+#include <map>
+#include <set>
 
-int main(int argc, char *argv[]) {
-	int T, N, **arr, M;
-	int up, down, left, right;
+void permutation(std::string str, const int& l, const int& r, std::set<std::string>& st){
+	if(l == r)
+		st.insert(str);
+	else
+		for(int i=l;i<=r;i++){
+			std::swap(str[i], str[l]);
+			permutation(str, l+1, r, st);
+			std::swap(str[i], str[l]);
+		}
+}
+
+int main(int argc, char* argv[]) {
+	int T, N, temp;
+	std::string s;
+	std::map<int, std::string> mp = {std::make_pair(0, ""), std::make_pair(1, ""), std::make_pair(2, "abc"), std::make_pair(3, "def"), std::make_pair(4, "ghi"), std::make_pair(5, "jkl"), std::make_pair(6, "mno"), std::make_pair(7, "pqrs"), std::make_pair(8, "tuv"), std::make_pair(9, "wxyz")};
 	std::cin>>T;
+	std::set<std::string> st;
 	while(T--) {
 		std::cin>>N;
-		arr = new int*[N];
-		for(int i=0;i<N;i++)
-			arr[i] = new int[N];
-		for(int i=0;i<N;i++)
-			for(int j=0;j<N;j++)
-				std::cin>>*(*(arr+i)+j);
-		up = arr[N>>1][N>>1];
-		M = N;
-		for(int i=0;i<N/2;i++){
-			for(int j=0;j<M;j++)
-				if(i<=j)
-					up += arr[i][j];
-			M--;
+		s = "";
+		for(int i=0;i<N;i++){
+			std::cin>>temp;
+			s += mp[temp];
 		}
-		down = arr[N>>1][N>>1];
-		M = N;
-		for(int i=N-1;i>N/2;i--){
-			for(int j=M-1;j>=0;j--)
-				if(i+j>=N-1)
-					down += arr[i][j];
-			M--;
-		}
-		left = arr[N>>1][N>>1];
-		M = N;
-		for(int i=M-1;i>=0;i--){
-			for(int j=0;j<N/2;j++)
-				if(i>=j)
-					std::cout<<arr[i][j]<<" ";
-			std::cout<<std::endl;			
-			M--;
-		}
-		std::cout<<left<<std::endl;
-		for(int i=0;i<N;i++)
-			delete[] arr[i];
-		delete[] arr;
+		permutation(s, 0, s.size()-1, st);
+		for(std::set<std::string>::iterator it=st.begin();it!=st.end();++it)
+			if((*it).size() == 3)
+				std::cout<<(*it)<<' ';
+		std::cout<<std::endl;
+		st.clear();
 	}
 	return 0;
 }
