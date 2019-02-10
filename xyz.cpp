@@ -1,37 +1,35 @@
 #include <iostream>
-#include <map>
-#include <set>
+#include <algorithm>
 
-void permutation(std::string str, const int& l, const int& r, std::set<std::string>& st){
-	if(l == r)
-		st.insert(str);
-	else
-		for(int i=l;i<=r;i++){
-			std::swap(str[i], str[l]);
-			permutation(str, l+1, r, st);
-			std::swap(str[i], str[l]);
-		}
-}
-
-int main(int argc, char* argv[]) {
-	int T, N, temp;
-	std::string s;
-	std::map<int, std::string> mp = {std::make_pair(0, ""), std::make_pair(1, ""), std::make_pair(2, "abc"), std::make_pair(3, "def"), std::make_pair(4, "ghi"), std::make_pair(5, "jkl"), std::make_pair(6, "mno"), std::make_pair(7, "pqrs"), std::make_pair(8, "tuv"), std::make_pair(9, "wxyz")};
-	std::cin>>T;
-	std::set<std::string> st;
-	while(T--) {
-		std::cin>>N;
-		s = "";
-		for(int i=0;i<N;i++){
-			std::cin>>temp;
-			s += mp[temp];
-		}
-		permutation(s, 0, s.size()-1, st);
-		for(std::set<std::string>::iterator it=st.begin();it!=st.end();++it)
-			if((*it).size() == 3)
-				std::cout<<(*it)<<' ';
-		std::cout<<std::endl;
-		st.clear();
-	}
+int main() {
+    short T, N, *a, *d, *temp;
+    std::cin>>T;
+    while(T--) {
+        std::cin>>N;
+        a = new short[N];
+        d = new short[N];
+        for(short i=0;i<N;i++)
+            std::cin>>*(a+i);
+        for(short i=0;i<N;i++)
+            std::cin>>*(d+i);
+        temp = new short[N];
+        for(short i=0;i<N;i++)
+            *(temp+i) = 0;
+        for(short i=1;i<N-1;i++){
+            if(d[i+1]-a[i] < d[i-1]-a[i])
+                temp[i+1] += a[i];
+            else
+                temp[i-1] += a[i];
+        }
+        d[1]-a[0] < d[N-1]-a[0] ? temp[1] += a[0] : temp[N-1] += a[0];
+        d[0]-a[N-1] < d[N-2]-a[N-1] ? temp[0] += a[N-1] : temp[N-2] += a[N-1];
+        for(int i=0;i<N;i++)
+            temp[i] = d[i]-temp[i];
+        short val = *std::max_element(temp, temp+N);
+        val <= 0 ? std::cout<<-1<<std::endl : std::cout<<val<<std::endl;
+        delete[] temp;
+        delete[] d;
+        delete[] a;
+    }
 	return 0;
 }

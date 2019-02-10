@@ -1,28 +1,38 @@
-#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
 
-void solve(int num) {
-    bool isPrime[num>>1];
-    for(int i=0;i<sizeof(isPrime);i++)
-        isPrime[i] = false;
-    // isPrime[0] = false;
-    // isPrime[1] = false;
-    for(int i=3;i*i<num;i+=2)
-        if(isPrime[i>>1] == false)
-            for(int j=i*i;j<num;j+=(i<<1))
-                isPrime[j>>1] = true;
-    unsigned long long sum = 2;
-    for(int i=3;i<num;i+=2)
-        if(isPrime[i>>1] == false)
-            sum += i;
-    std::cout<<sum<<std::endl;
+int solve (string s) {
+//    // Write your code here
+//    std::vector<int> v(s.size(), 1);
+//    for(int i=0;i<s.size()-1;i++){
+//        if(s[i] != 'a' && s[i] != 'e' && s[i] != 'i' && s[i] != 'o' && s[i] != 'u')
+//         v[i] = 0;
+//        else
+//         for(int j=i+1;j<s.size();j++)
+//             if(s[j] == 'a' || s[j] == 'e' || s[j] == 'i' || s[j] == 'o' || s[j] == 'u')
+//                 v[i]++;
+//             else
+//                 break;
+//    }
+//    for(std::vector<int>::iterator it=v.begin();it!=v.end();++it)
+//     std::cout<<(*it)<<' '<<std::endl;
+// return -1;
 }
 
 int main() {
-    int T, N;
-    std::cin>>T;
-    while(T--) {
-        std::cin>>N;
-        solve(N+1);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    int T;
+    cin >> T;
+    for(int t_i=0; t_i<T; t_i++)
+    {
+        string S;
+        // getline(cin, S);
+        cin >> S;
+        int out_;
+        out_ = solve(S);
+        cout << out_;
+        cout << "\n";
     }
-	return 0;
+    return 0;
 }
