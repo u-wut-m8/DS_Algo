@@ -1,60 +1,125 @@
 #include <iostream>
-
-struct node {
-    int data;
-    node *left, *right;
+#include <utility>
+#include <cstdio>
+#include <vector>
+#include <map>
+#include <queue>
+using namespace std;
+struct Node
+{
+  int data;
+  struct Node *left;
+  struct Node *right;
+  struct Node *nextRight;
 };
-
-node* newnode(int val){
-    node* temp = new node;
-    temp->data = val;
-    temp->left = temp->right = nullptr;
-    return temp;
+void connect(struct Node *p);
+/* Helper function that allocates a new node with the
+   given data and NULL left and right pointers. */
+struct Node* newNode(int data)
+{
+  struct Node* node = new Node;
+  node->data = data;
+  node->left = NULL;
+  node->right = NULL;
+  return(node);
 }
-
-node* search(node* root, int val){
-    if(root == nullptr)
-        return nullptr;
-    else if(root->data == val)
-        return root;
-    else if(val <= root->data)
-        search(root->left, val);
-    else
-        search(root->right, val);
+void printSpecial(Node *root)
+{
+   if (root == NULL)
+     return;
+   Node *node = root;
+   while (node != NULL)
+   {
+      printf("%d ", node->data);
+      node = node->nextRight;
+   }
+   if (root->left)
+     printSpecial(root->left);
+   else
+     printSpecial(root->right);
 }
-
-void preorder(node* root){
-    if(!root)
-        return;
-    else{
-        std::cout<<root->data<<std::endl;
-        preorder(root->left);
-        preorder(root->right);
-    }
+void inorder(Node *root)
+{
+    if (root == NULL)
+       return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
 }
-
-node* insert(node* root, int val){
-    if(!root)
-        return newnode(val);
-    else{
-        if(val <= root->data)
-            root->left = insert(root->left, val);
+/* Driver program to test size function*/
+int main()
+{
+  int t;
+  scanf("%d", &t);
+  while (t--)
+  {
+     map<int, Node*> m;
+     int n;
+     scanf("%d",&n);
+     struct Node *root = NULL;
+     struct Node *child;
+     while (n--)
+     {
+        Node *parent;
+        char lr;
+        int n1, n2;
+        scanf("%d %d %c", &n1, &n2, &lr);
+        if (m.find(n1) == m.end())
+        {
+           parent = newNode(n1);
+           m[n1] = parent;
+           if (root == NULL)
+             root = parent;
+        }
         else
-            root->right = insert(root->right, val);
-        return root;
-    }
+           parent = m[n1];
+        child = newNode(n2);
+        if (lr == 'L')
+          parent->left = child;
+        else
+          parent->right = child;
+        m[n2]  = child;
+     }
+     connect(root);
+     printSpecial(root);
+     printf(" ");
+     inorder(root);
+     printf(" ");
+  }
+  return 0;
 }
 
-int main(int argc, char* argv[]) {
-    int N, temp;
-    node *root = nullptr, *q;
-    std::cin>>N;
-    for(int i=0;i<N;i++){
-        std::cin>>temp;
-        root = insert(root, temp);
-    }
-    std::cin>>temp;
-    q = search(root, temp);
-    preorder(q);
-    return 0;
+/*Please note that it's Function problem i.e.
+you need to write your solution in the form of Function(s) only.
+Driver Code to call/invoke your function is mentioned above.*/
+
+/* struct Node
+{
+  int data;
+  Node *left,  *right;
+  Node *nextRight;  // This has garbage value in input trees
+}; */
+// Should set the nextRight for all nodes
+void connect(Node *p)
+{
+   // Your Code Here
+   vector<vector<Node*>> v;
+   queue<pair<Node*, int>> q;
+   pair<Node*, int> temp;
+   int i = 0;
+   q.push(pair<Node*, int>(p, i));
+   while(!q.empty()){
+       temp = q.front();
+       if(i != temp.second)
+        i++;
+       v[temp.second].push_back(temp.first);
+       q.push(pair<Node*, int>(temp.first->left, i+1));
+       q.push(pair<Node*, int>(temp.first->right, i+1));
+       q.pop();
+   }
+   for(vector<vector<Node*>>::iterator it=v.begin();it!=v.end();++it){
+    for(int i=0;i<(*it).size()-1;i++)
+        (*it)[i]->nextRight = (*it)[i+1];
+    (*it)[(*it).size()-1]->nextRight = NULL;
+   }
 }
