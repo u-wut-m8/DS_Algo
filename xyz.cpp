@@ -10,11 +10,7 @@ struct Node
   int data;
   struct Node *left;
   struct Node *right;
-  struct Node *nextRight;
 };
-void connect(struct Node *p);
-/* Helper function that allocates a new node with the
-   given data and NULL left and right pointers. */
 struct Node* newNode(int data)
 {
   struct Node* node = new Node;
@@ -23,30 +19,37 @@ struct Node* newNode(int data)
   node->right = NULL;
   return(node);
 }
-void printSpecial(Node *root)
-{
-   if (root == NULL)
-     return;
-   Node *node = root;
-   while (node != NULL)
-   {
-      printf("%d ", node->data);
-      node = node->nextRight;
-   }
-   if (root->left)
-     printSpecial(root->left);
-   else
-     printSpecial(root->right);
-}
-void inorder(Node *root)
-{
+void inorder(Node *root, vector<int>& v) {
     if (root == NULL)
        return;
-    inorder(root->left);
-    cout << root->data << " ";
-    inorder(root->right);
+    inorder(root->left, v);
+    v.push_back(root->data);
+    inorder(root->right, v);
 }
-/* Driver program to test size function*/
+
+bool isPresent(std::vector<int> v){
+  int l, r;
+  for(int i=0;i<v.size();i++){
+    l = i+1;
+    r = v.size()-1;
+    while(l < r){
+      if(v[i]+v[r]+v[l] == 0)
+        return true;
+      else if(v[i]+v[r]+v[l] > 0)
+        r--;
+      else
+        l++;
+    }
+  }
+  return false;
+}
+
+bool isTripletePresent(Node* root){
+  std::vector<int> v;
+  inorder(root, v);
+  return isPresent(v);
+}
+
 int main()
 {
   int t;
@@ -80,46 +83,8 @@ int main()
           parent->right = child;
         m[n2]  = child;
      }
-     connect(root);
-     printSpecial(root);
      printf(" ");
-     inorder(root);
      printf(" ");
   }
   return 0;
-}
-
-/*Please note that it's Function problem i.e.
-you need to write your solution in the form of Function(s) only.
-Driver Code to call/invoke your function is mentioned above.*/
-
-/* struct Node
-{
-  int data;
-  Node *left,  *right;
-  Node *nextRight;  // This has garbage value in input trees
-}; */
-// Should set the nextRight for all nodes
-void connect(Node *p)
-{
-   // Your Code Here
-   vector<vector<Node*>> v;
-   queue<pair<Node*, int>> q;
-   pair<Node*, int> temp;
-   int i = 0;
-   q.push(pair<Node*, int>(p, i));
-   while(!q.empty()){
-       temp = q.front();
-       if(i != temp.second)
-        i++;
-       v[temp.second].push_back(temp.first);
-       q.push(pair<Node*, int>(temp.first->left, i+1));
-       q.push(pair<Node*, int>(temp.first->right, i+1));
-       q.pop();
-   }
-   for(vector<vector<Node*>>::iterator it=v.begin();it!=v.end();++it){
-    for(int i=0;i<(*it).size()-1;i++)
-        (*it)[i]->nextRight = (*it)[i+1];
-    (*it)[(*it).size()-1]->nextRight = NULL;
-   }
 }

@@ -2,11 +2,11 @@
 #include <vector>
 
 struct node {
-    int data;
+    short data;
     node *left, *right;
 };
 
-inline node* newnode(const int& val){
+inline node* newnode(const short& val){
     return new node{val, nullptr, nullptr};
 }
 
@@ -19,10 +19,10 @@ void inorder(std::vector<node*>& v, node* root){
     }
 }
 
-node* balanceUtil(std::vector<node*>& v, int start, int end){
+node* balanceUtil(std::vector<node*>& v, short start, short end){
     if(start > end)
         return nullptr;
-    int mid = (start+end)>>1;
+    short mid = (start+end)>>1;
     node* temp = v[mid];
     temp->left = balanceUtil(v, start, mid-1);
     temp->right = balanceUtil(v, mid+1, end);
@@ -36,7 +36,7 @@ node* balancedTree(node* root){
 }
 
 //Create BST from array
-node* insert(node* root, const int& val) {
+node* insert(node* root, const short& val) {
     if(!root)
         return newnode(val);
     else{
@@ -56,14 +56,14 @@ void preorder(node* root){
 }
 
 int main(int argc, char* argv[]) {
-    int T, N, *arr;
+    short T, N, *arr;
     node* head;
     std::cin>>T;
     while(T--){
         std::cin>>N;
         head = nullptr;
-        arr = new int[N];
-        for(int i=0;i<N;i++){
+        arr = new short[N];
+        for(short i=0;i<N;i++){
             std::cin>>*(arr+i);
             head = insert(head, *(arr+i));
         }
