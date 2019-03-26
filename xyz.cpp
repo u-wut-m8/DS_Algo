@@ -1,90 +1,72 @@
 #include <iostream>
-#include <utility>
-#include <cstdio>
 #include <vector>
-#include <map>
-#include <queue>
-using namespace std;
-struct Node
-{
-  int data;
-  struct Node *left;
-  struct Node *right;
+
+struct node {
+    int data;
+    node *left, *right;
 };
-struct Node* newNode(int data)
-{
-  struct Node* node = new Node;
-  node->data = data;
-  node->left = NULL;
-  node->right = NULL;
-  return(node);
-}
-void inorder(Node *root, vector<int>& v) {
-    if (root == NULL)
-       return;
-    inorder(root->left, v);
-    v.push_back(root->data);
-    inorder(root->right, v);
+
+inline node* newnode(const int& val){
+    return new node{val, nullptr, nullptr};
 }
 
-bool isPresent(std::vector<int> v){
-  int l, r;
-  for(int i=0;i<v.size();i++){
-    l = i+1;
-    r = v.size()-1;
-    while(l < r){
-      if(v[i]+v[r]+v[l] == 0)
-        return true;
-      else if(v[i]+v[r]+v[l] > 0)
-        r--;
-      else
-        l++;
+node* insert(node* root, const int& val) {
+    if(!root)
+        return newnode(val);
+    else{
+        if(val <= root->data)
+            root->left = insert(root->left, val);
+        else
+            root->right = insert(root->right, val);
     }
+}
+
+node* find(node* root, int& temp){
+  if(!root || root->data == temp)
+    return nullptr;
+  else{
+    if(temp < root->data)
+      root->left = find(root->left, temp);
+    else
+      root->right = find(root->right, temp);
+    return root;
   }
-  return false;
 }
 
-bool isTripletePresent(Node* root){
-  std::vector<int> v;
-  inorder(root, v);
-  return isPresent(v);
+void preorder(node* root){
+  if(root){
+    std::cout<<root->data<<' ';
+    preorder(root->left);
+    preorder(root->right);
+  }
 }
 
-int main()
-{
-  int t;
-  scanf("%d", &t);
-  while (t--)
-  {
-     map<int, Node*> m;
-     int n;
-     scanf("%d",&n);
-     struct Node *root = NULL;
-     struct Node *child;
-     while (n--)
-     {
-        Node *parent;
-        char lr;
-        int n1, n2;
-        scanf("%d %d %c", &n1, &n2, &lr);
-        if (m.find(n1) == m.end())
-        {
-           parent = newNode(n1);
-           m[n1] = parent;
-           if (root == NULL)
-             root = parent;
+int main(int argc, char* argv[]) {
+    int T, N, Q, temp, *arr;
+    node* head, *q;
+    std::cin>>T;
+    while(T--){
+        std::cin>>N>>Q;
+        head = nullptr;
+        arr = new int[N];
+        for(int i=0;i<N;i++){
+            std::cin>>arr[i];
+            head = insert(head, arr[i]);
         }
-        else
-           parent = m[n1];
-        child = newNode(n2);
-        if (lr == 'L')
-          parent->left = child;
-        else
-          parent->right = child;
-        m[n2]  = child;
-     }
-     printf(" ");
-     printf(" ");
-  }
-  return 0;
+        while(Q--){
+          std::cin>>temp;
+          q = nullptr;
+          for(int i=0;i<N;i++){
+            q = insert(q, arr[i]);
+          }
+          q = find(q, temp);
+          if(!q)
+            std::cout<<"Empty";
+          else
+            preorder(q);
+            std::cout<<std::endl;
+        }
+        delete[] arr;
+    }
+    return 0;
 }
