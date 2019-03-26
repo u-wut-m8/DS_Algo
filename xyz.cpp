@@ -1,4 +1,5 @@
 #include <iostream>
+<<<<<<< HEAD
 #include <vector>
 
 struct node {
@@ -68,5 +69,9 @@ int main(int argc, char* argv[]) {
         }
         delete[] arr;
     }
+=======
+
+int main(int argc, char* argv[]) {
+>>>>>>> 1d45762d4063f82b4d847b9617634c952a263906
     return 0;
 }
